@@ -21,12 +21,12 @@ function handleDisconnect(){
     });
 
     connection.on('error', function(err){
-        if(err.code = 'PROTOCOL_CONNECTION_LOST'){
+        if(err){
             handleDisconnect();
         }else{
             throw err;
         }
-    })
+    });
 }
 
 handleDisconnect();

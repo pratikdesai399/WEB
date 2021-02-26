@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bp = require('body-parser');   // For parsing the request body
+const {save_user_information} = require('./models/server_db.js');
 
 // console.log('HELLO APPLICATION STARTED');
 
@@ -10,7 +11,7 @@ const bp = require('body-parser');   // For parsing the request body
 
 app.use(bp.json());
 
-app.post('/',(req,res)=>{
+app.post('/', async (req,res)=>{
     var email = req.body.email;
     var amount = req.body.amount;
 
@@ -23,10 +24,11 @@ app.post('/',(req,res)=>{
 
         return (res.send(request_info));
     }
+    var result = await save_user_information({"amount" : amount , "email" : email});
 
     //Now to see whether we got the info
 
-    res.send({"amount" : amount , "email" : email});
+    res.send(result);
 
 })
 
