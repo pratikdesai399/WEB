@@ -1,0 +1,22 @@
+{
+  "name": "blockchain",
+  "version": "1.0.0",
+  "description": "This is a sample README",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pratikdesai399/WEB.git"
+  },
+  "author": "Pratik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pratikdesai399/WEB/issues"
+  },
+  "homepage": "https://github.com/pratikdesai399/WEB#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
