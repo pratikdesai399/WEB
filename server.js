@@ -14,7 +14,7 @@ const publicPath = path.join(__dirname, './public');
 app.use(bp.json());
 app.use(express.static(publicPath));
 
-app.post('/', async (req,res)=>{
+app.post('/post_info', async (req,res)=>{
     var email = req.body.email;
     var amount = req.body.amount;
 
