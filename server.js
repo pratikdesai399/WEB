@@ -4,6 +4,7 @@ const bp = require('body-parser');   // For parsing the request body
 const {save_user_information} = require('./models/server_db.js');
 const path = require('path');
 const publicPath = path.join(__dirname, './public');
+const paypal = require('paypal-rest-apk');
 
 // console.log('HELLO APPLICATION STARTED');
 
@@ -13,6 +14,13 @@ const publicPath = path.join(__dirname, './public');
 
 app.use(bp.json());
 app.use(express.static(publicPath));
+
+// To configure the paypal
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': 'AQ7aCV5SUS9hRMMVPQCiBQ-7CKcBoAf0gKUvmEHlKcHoIlR2FBE987l8GkTxy7fTfAIvB8B6n44nmfcZ',
+    'client_secret': 'EBQQYXfbq_Qfobj0wUikO9DDQmQRM3XaNeQhKW3MsCSnIIXu2bI2RrJY9WKHMom1SUhzJT1FmJh2tBJR'
+  });
 
 app.post('/post_info', async (req,res)=>{
     var email = req.body.email;

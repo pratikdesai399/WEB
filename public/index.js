@@ -51,3 +51,4 @@ ReactDOM.render(
     </div>
     , document.getElementById('reactBinding')
 )
+
