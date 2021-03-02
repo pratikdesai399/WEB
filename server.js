@@ -4,7 +4,7 @@ const bp = require('body-parser');   // For parsing the request body
 const {save_user_information} = require('./models/server_db.js');
 const path = require('path');
 const publicPath = path.join(__dirname, './public');
-const paypal = require('paypal-rest-apk');
+var paypal = require('paypal-rest-sdk');
 
 // console.log('HELLO APPLICATION STARTED');
 
@@ -39,7 +39,54 @@ app.post('/post_info', async (req,res)=>{
 
     //Now to see whether we got the info
 
-    res.send(result);
+    //Paypal
+    var create_payment_json = {
+        "intent": "sale",
+        "payer": {
+            "payment_method": "paypal"
+        },
+        "redirect_urls": {
+            "return_url": "http://localhost:8000/success",
+            "cancel_url": "http://localhost:8000/cancel"
+        },
+        "transactions": [{
+            "item_list": {
+                "items": [{
+                    "name": "Lottery",
+                    "sku": "Funding",
+                    "price": amount,
+                    "currency": "USD",
+                    "quantity": 1
+                }]
+            },
+            "amount": {
+                "currency": "USD",
+                "total": amount
+            },
+            'payee':{
+                'email' : 'lotterymanager1@lotteryapp.com'
+            },
+            "description": "Lottery Purchase"
+        }]
+    };
+    
+    
+    paypal.payment.create(create_payment_json, function (error, payment) {
+        if (error) {
+            throw error;
+        } else {
+            console.log("Create Payment Response");
+            console.log(payment);
+
+            for(var i = 0; i < payment.links.length; i++){
+                if(payment.links[i].rel == 'approval_url'){
+                    return res.send(payment.links[i].href);
+                }
+            }
+        }
+    });
+
+    // res.send(result);
 
 });
 
