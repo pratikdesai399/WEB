@@ -1,3 +1,6 @@
+//Lottery Manager : lotterymanager@app.com   password : manager1234
+// User1 : first_user@app.com   pass : first1234
+
 const express = require('express');
 const app = express();
 const bp = require('body-parser');   // For parsing the request body
@@ -18,8 +21,8 @@ app.use(express.static(publicPath));
 // To configure the paypal
 paypal.configure({
     'mode': 'sandbox', //sandbox or live
-    'client_id': 'AQ7aCV5SUS9hRMMVPQCiBQ-7CKcBoAf0gKUvmEHlKcHoIlR2FBE987l8GkTxy7fTfAIvB8B6n44nmfcZ',
-    'client_secret': 'EBQQYXfbq_Qfobj0wUikO9DDQmQRM3XaNeQhKW3MsCSnIIXu2bI2RrJY9WKHMom1SUhzJT1FmJh2tBJR'
+    'client_id': 'AURxAOWWPsPQ4Hb-p5r8iuyibz8jcYb3w9DAn6cFIuH2glf0d8wCiK42qkNfUgD9AD26Xt5IlvDXe0_U',
+    'client_secret': 'EGpCo876AT2v0ldbfJBvr9d04X6Oj36_F2C-s9N4iVDvVry3adpz48vDaMPZKI_Pk4ZOkyCUhevrKG91'
   });
 
 app.post('/post_info', async (req,res)=>{
@@ -64,7 +67,7 @@ app.post('/post_info', async (req,res)=>{
                 "total": amount
             },
             'payee':{
-                'email' : 'lotterymanager1@lotteryapp.com'
+                'email' : 'lotterymanager@app.com'
             },
             "description": "Lottery Purchase"
         }]
@@ -88,6 +91,32 @@ app.post('/post_info', async (req,res)=>{
 
     // res.send(result);
 
+});
+
+
+app.get('/success',  (req,res)=>{
+    //res.send("In res");
+    const payerId = req.query.PayerID;
+    const paymentId = req.query.paymentID;
+    var execute_payment_json = {
+        "payer_id" : payerId,
+        "transactions" : [{
+            "amount" : {
+                "currency" : "USD",
+                "total" : 100
+            }
+        }]
+    };
+    paypal.payment.execute(paymentId, execute_payment_json, function(err,payment){
+        if(err){
+            console.log(error.response);
+            throw error;
+        }else{
+            console.log(payment);
+        }
+    });
+
+    res.redirect('http://localhost:8000');
 });
 
 app.get('/get_total_amount', async (req,res)=>{
