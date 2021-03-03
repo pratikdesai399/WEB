@@ -66,8 +66,8 @@ app.post('/post_info', async (req,res)=>{
                 "currency": "USD",
                 "total": amount
             },
-            'payee':{
-                'email' : 'lotterymanager@app.com'
+            "payee":{
+                "email" : "lotterymanager@app.com"
             },
             "description": "Lottery Purchase"
         }]
@@ -95,24 +95,42 @@ app.post('/post_info', async (req,res)=>{
 
 
 app.get('/success',  (req,res)=>{
-    //res.send("In res");
+   // res.send("In res");
+    // const payerId = req.query.PayerID;
+    // const paymentId = req.query.paymentID;
+    // var execute_payment_json = {
+    //     "payer_id" : payerId,
+    //     "transactions" : [{
+    //         "amount" : {
+    //             "currency" : "USD",
+    //             "total" : 100
+    //         }
+    //     }]
+    // };
+
     const payerId = req.query.PayerID;
-    const paymentId = req.query.paymentID;
+    const paymentId = req.query.paymentId;
     var execute_payment_json = {
-        "payer_id" : payerId,
-        "transactions" : [{
-            "amount" : {
-                "currency" : "USD",
-                "total" : 100
-            }
-        }]
-    };
-    paypal.payment.execute(paymentId, execute_payment_json, function(err,payment){
-        if(err){
+        "payer_id": payerId,
+        "transactions": [{
+            "amount": {
+                "currency": "USD",
+                "total": 100
+        }
+    }]
+  };
+
+
+
+
+
+    paypal.payment.execute( paymentId,execute_payment_json,function (error, payment) {
+        if (error) {
             console.log(error.response);
             throw error;
-        }else{
+        } else {
             console.log(payment);
+
         }
     });
 
