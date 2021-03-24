@@ -38,7 +38,8 @@ app.post('/post_info', async (req,res)=>{
 
         return (res.send(request_info));
     }
-    var result = await save_user_information({"amount" : amount , "email" : email});
+    var fee_amount = amount * 0.9;
+    var result = await save_user_information({"amount" : fee_amount , "email" : email});
 
     //Now to see whether we got the info
 
